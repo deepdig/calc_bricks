@@ -4,6 +4,7 @@
 <head>
     <title>Калькулятор</title>
 
+    <link rel="stylesheet" href="assets/css/moongrid.min.css">
     <link rel="stylesheet" href="assets/css/bricks-calc.css">
 </head>
 
@@ -14,6 +15,85 @@
         <div class="container">
             <h2>{{ title }}</h2>
 
+            <div class="row">
+                <div class="col-sm-8">
+
+                    <div class="calc-option_block">
+                        <select name="type" id="" v-model="selectSize">
+                            <option disabled value="">
+                                Размеры (мм.)
+                            </option>
+                            <option v-for="(item, index) in bricksSizeArr" v-bind:value="item.coef">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <span class="calc-option_info">Размер (Д*Ш*В) или вид кирпича (мм.)</span>
+                    </div>
+
+                    <div class="calc-option_block">
+                        <input type="text" v-model="inputPerimeter" placeholder="Длина(м.)">
+                        <span class="calc-option_info">Общая длина всех стен (периметр) (м.)</span>
+                    </div>
+                    <div class="calc-option_block">
+                        <input type="text" v-model="inputDegHeight"  placeholder="Высота (см.)">
+                        <span class="calc-option_info">Высота стен по углам (см.)</span>
+                    </div>
+
+                    <div class="calc-option_block">
+                        <select name="type" id="" v-model="selectDepth">
+                            <option disabled value="">
+                                Толщина
+                            </option>
+                            <option v-for="(item, index) in bricksDepthArr" v-bind:value="item.coef">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <span class="calc-option_info">Толщина стен</span>
+                    </div>
+
+                    <div class="calc-option_block">
+                        <select name="type" id="" v-model="selectLiquorDepth">
+                            <option disabled value="">
+                                Толщина раствора
+                            </option>
+                            <option v-for="(item, index) in bricksLiquorDepthArr" v-bind:value="item.coef">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <span class="calc-option_info">Толщина раствора в кладке (мм.)</span>
+                    </div>
+
+                    <div class="calc-option_block">
+                        <select name="type" id="" v-model="selectGrid">
+                            <option disabled value="">
+                                Сетка
+                            </option>
+                            <option v-for="(item, index) in bricksGridArr" v-bind:value="item.coef">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                        <span class="calc-option_info">Кладочная сетка</span>
+                    </div>
+
+                    <div class="calc-option_block">
+                        <input type="text" v-model="inputPrice" placeholder="Цена за 1шт.">
+                        <span class="calc-option_info">Цена за 1шт.</span>
+                    </div>
+                    <div class="calc-option_block">
+                        <input type="text" v-model="inputVoid"  placeholder="Пустотность (%)">
+                        <span class="calc-option_info">Пустотность кирпича (%)</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="bricks-img_block">
+                        <img src="assets/img/bricks/01_bricks.jpg" alt="">
+                    </div>
+                    <div class="grid-img_block">
+                        <img src="assets/img/grids/01_grid.jpg" alt="">
+                    </div>
+                </div>
+            </div>
 
             <hr>
             <h4>Отладка:</h4>

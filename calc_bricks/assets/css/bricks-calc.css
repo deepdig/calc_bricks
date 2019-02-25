@@ -49,13 +49,19 @@
 }
 .calc-hidden {display:none;}
 .calc-btn_wrapper p {display:inline; cursor:pointer;}
-/* Custom select */
-.calc-block select {
-    display: inline-block;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #f4f1ed;
-    border: 0;
-    font-size: 2rem;
-}
 
+/* Основные стили */
+.calc-option_block {display: block;margin-bottom: 20px;}
+.calc-option_block select, .calc-option_block input {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #f90;
+    font-size: 1rem;
+}
+.calc-option_block select:focus, .calc-option_block input:focus {outline: none;border: 1px solid #ff6200;}
+
+@media (min-width:768px){
+    .calc-option_block select, .calc-option_block input  {width: 150px;margin-right: 20px;}
+}
