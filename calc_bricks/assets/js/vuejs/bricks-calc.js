@@ -51,8 +51,6 @@ var vm = new Vue({
         totalPrice: function() {
             var selectPopulation = this.selectTheme;
             var selectFamaly = this.selectFamaly;
-            var agent = this.activeButton1; // селектор Представителя
-            var coordinator = this.activeButton2; // селектор Координатора
 
             function checkedSum(array){
                 var sum = 0;
