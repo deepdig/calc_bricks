@@ -1,0 +1,61 @@
+/* Анимация Vue */
+.fade-enter-active, .fade-leave-active {
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+}
+
+.slide-enter-active, .slide-leave-active {
+    height: 100%;
+     -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+}
+.slide-enter, .slide-leave-to /* начало анимации */ {
+    height: 0;
+    opacity: 0;
+}
+/* Custom checkbox*/
+.calc-btn_wrapper input[type="checkbox"]+span, .seocalc-item input[type="radio"]+span {
+    -webkit-appearance:none;
+    width:30px;
+    height:30px;
+    border:2px solid #ed008a;
+    outline:none;
+    margin:5px;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    display:inline-block;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.calc-btn_wrapper input[type="checkbox"]:checked+span {border:2px solid #8ab772;}
+.seocalc-item input[type="radio"]+span>div {width: 20px;}
+.calc-btn_wrapper input[type="checkbox"]+span:before, .seocalc-item input[type="radio"]+span:before{
+    content: "\2716";
+    display: block;
+    color: #ed008a;
+    margin: 3px 5.5px;
+    pointer-events: none;
+    font-size: 17px;
+}
+.calc-btn_wrapper input[type="checkbox"]:checked+span:before, .seocalc-item input[type="radio"]:checked+span:before{
+    content: "\2714";
+    display: block;
+    margin: 3px 5.5px;
+    pointer-events: none;
+    color: #8ab772;
+}
+.calc-hidden {display:none;}
+.calc-btn_wrapper p {display:inline; cursor:pointer;}
+/* Custom select */
+.calc-block select {
+    display: inline-block;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f4f1ed;
+    border: 0;
+    font-size: 2rem;
+}
+
