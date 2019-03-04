@@ -5,6 +5,7 @@
     <title>Калькулятор</title>
 
     <link rel="stylesheet" href="assets/css/moongrid.min.css">
+    <link rel="stylesheet" href="assets/css/tables.css">
     <link rel="stylesheet" href="assets/css/bricks-calc.css">
 </head>
 
@@ -15,9 +16,8 @@
         <div class="container">
             <h2>{{ title }}</h2>
 
-            <div class="row">
+            <div class="row calc-body">
                 <div class="col-sm-8">
-
                     <div class="calc-option_block">
                         <select name="type" id="" v-model="selectSize">
                             <option disabled value="">
@@ -35,7 +35,7 @@
                         <span class="calc-option_info">Общая длина всех стен (периметр) (м.)</span>
                     </div>
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputDegHeight"  placeholder="Высота (см.)">
+                        <input type="text" v-model="inputDegHeight" placeholder="Высота (см.)">
                         <span class="calc-option_info">Высота стен по углам (см.)</span>
                     </div>
 
@@ -56,7 +56,7 @@
                             <option disabled value="">
                                 Толщина раствора
                             </option>
-                            <option v-for="(item, index) in bricksLiquorDepthArr" v-bind:value="item.coef">
+                            <option v-for="(item, index) in bricksLiquorDepthArr" v-bind:value="item">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -68,7 +68,7 @@
                             <option disabled value="">
                                 Сетка
                             </option>
-                            <option v-for="(item, index) in bricksGridArr" v-bind:value="item.coef">
+                            <option v-for="(item, index) in bricksGridArr" v-bind:value="item">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -80,12 +80,12 @@
                         <span class="calc-option_info">Цена за 1шт.</span>
                     </div>
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputVoid"  placeholder="Пустотность (%)">
+                        <input type="text" v-model="inputVoid" placeholder="Пустотность (%)">
                         <span class="calc-option_info">Пустотность кирпича (%)</span>
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-4 bricks-img_wrapper">
                     <div class="bricks-img_block">
                         <img v-if="!imjSrc" src="assets/img/bricks/01_bricks.jpg">
                         <img v-if="imjSrc" v-bind:src="'assets/img/bricks/' + imjSrc + '.jpg'">
@@ -95,7 +95,43 @@
                         <img v-if="imjGrids" v-bind:src="'assets/img/grids/' + imjGrids + '.jpg'">
                     </div>
                 </div>
+
+                <div class="col-sm-12 result-button_block">
+                    <div class="button result-button" v-on:click="resultsShow = !resultsShow">Расчитать</div>
+                </div>
             </div>
+
+            <transition name="fade">
+                <div v-if="resultsShow" class="row calc-results">
+                    <div class="col-sm-12">
+                        <h3>Расчеты</h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Периметр строения</td>
+                                    <td class="td-result" data-label="Результат:"> {{ inputPerimeter }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">метров.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Общая площадь кладки</td>
+                                    <td class="td-result" data-label="Результат:">{{ squareResult }}</td>
+                                    <td class="td-metr" data-label="Единица измерения:">м2</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Толщина стены</td>
+                                    <td class="td-result" data-label="Результат:"> {{ depthResult }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">мм.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Количество кирпича</td>
+                                    <td class="td-result" data-label="Результат:"> {{ numResult }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">шт.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </transition>
 
             <hr>
             <h4>Отладка:</h4>
@@ -111,4 +147,5 @@
     <script src="assets/js/vuejs/bricks-calc.js"></script>
 
 </body>
+
 </html>

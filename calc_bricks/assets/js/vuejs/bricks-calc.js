@@ -18,6 +18,7 @@ var vm = new Vue({
     el: '#app',
     data: {
         title: 'Онлайн калькулятор расчета облицовочного и рядового кирпича',
+        resultsShow: false, // состояние кнопки расчета
         selectSize: '', // размеры кирпича       select
         inputPerimeter: null, // Общая длина всех стен (периметр)
         inputDegHeight: null, // Высота стен по углам
@@ -30,66 +31,82 @@ var vm = new Vue({
         // --- Данные ---
         // размеры кирпича
         bricksSizeArr: [{
-            name: '250х120х65 кирпич лицевой пустотелый одинарный',
+            name: '250х120х65 кирпич лицевой пустотелый одинарный', // length x width x heigt
             img: '01_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 2
         }, {
             name: '250х120х88 кирпич лицевой пустотелый полуторный',
             img: '02_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 3
         }, {
             name: '250х120х65 кирпич печной одинарный',
             img: '03_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 4
         }, {
             name: '250х120х65 кирпич шамотный одинарный',
             img: '04_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 5
         }, {
             name: '250х120х65 кирпич силикатный одинарный',
             img: '05_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 5
         }, {
             name: '250х120х88 кирпич силикатный полуторный',
             img: '06_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 5
         }, {
             name: '250х120х65 кирпич строительный одинарный',
             img: '07_bricks',
+            length: 250, // длина кирпича
+            depth: 120, // ширина кирпича мм
             coef: 5
         }, {
             name: '250х120х140 кирпич строительный двойной пустотелый',
             img: '08_bricks',
+            length: 250, // длина кирпича
+            width: 120, // ширина кирпича мм
             coef: 5
         }],
         // толщина кирпича
         bricksDepthArr: [{
             name: 'Половина кирпича',
             img: '01_grid',
-            coef: 2
+            value: 0,
         }, {
             name: 'В 1 кирпич',
             img: '02_grid',
-            coef: 3
+           value: 1,
         }, {
             name: 'В 1,5 кирпича',
             img: '03_grid',
-            coef: 4
+            value: 1.5,
         }, {
             name: 'В 2 кирпича',
             img: '04_grid',
-            coef: 5
+            value: 2,
         }],
         // толщина раствора в кладке
         bricksLiquorDepthArr: [{
             name: 'Раствор 10',
-            coef: 2
+            value: 10,
         }, {
             name: 'Раствор 15',
-            coef: 3
+            value: 15,
         }, {
             name: 'Раствор 20',
-            coef: 4
+            value: 20,
         }],
         // Кладочная сетка   select
         bricksGridArr: [{
@@ -121,35 +138,52 @@ var vm = new Vue({
     },
 
     computed: {
-        // расчет кирпича
-        totalPrice: function() {
-            var selectPopulation = this.selectTheme;
-            var selectFamaly = this.selectFamaly;
+        // расчет толщины стены
+        depthResult: function() {
+            var length = this.selectSize.length; // длина
+            var width = this.selectSize.width; // ширина
+            var depth = this.selectDepth.value; // толщина кладки
+            var liq = this.selectLiquorDepth.value; // толщина раствора
+            var result = 0;
 
-            function checkedSum(array){
-                var sum = 0;
-                for(var i = 0; i < array.length; i++){
-                    sum += array[i];
-                    }
-                return Number(sum);
+            switch (depth) {
+                case 0:
+                    result = width;
+                    break;
+                case 1:
+                    result = length;
+                    break;
+                case 1.5:
+                    result = length+width+liq;
+                    break;
+                case 2:
+                    result = length*2+liq*2;
+                    break;
+                default:
+                   result = 0;
             }
 
-            if (agent === true) {
-
-                var summa = 100;
-
-            } else if (coordinator === true) {
-                var summa = 200;
-            }
-
-             return summa;
-
-//            return Math.round(
-//                +selectPopulation +
-//                +selectFamaly
-//            );
+             return result;
         },
-        // end - завершение функции "расчет кирпича" - totalPrice
+
+        // расчет площади кладки
+        squareResult: function() {
+            var perimeter = this.inputPerimeter; // длина периметра
+            var height = this.inputDegHeight; // Высота стен по углам (см.)
+
+            return Math.round( (perimeter * height)/100 );
+
+        },
+
+        // расчет количества кирпича
+        numResult: function() {
+            var perimeter = this.inputPerimeter; // длина периметра
+            var height = this.inputDegHeight; // Высота стен по углам (см.)
+            var square = Math.round( (perimeter * height)/100 );
+
+            return Math.round( 1.08 * ( square * 51) );
+
+        },
 
         // возврат названия картинки с кирпичом
         imjSrc: function() {
