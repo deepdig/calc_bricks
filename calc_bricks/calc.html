@@ -23,7 +23,7 @@
                             <option disabled value="">
                                 Размеры (мм.)
                             </option>
-                            <option v-for="(item, index) in bricksSizeArr" v-bind:value="item.coef">
+                            <option v-for="(item, index) in bricksSizeArr" v-bind:value="item">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -44,7 +44,7 @@
                             <option disabled value="">
                                 Толщина
                             </option>
-                            <option v-for="(item, index) in bricksDepthArr" v-bind:value="item.coef">
+                            <option v-for="(item, index) in bricksDepthArr" v-bind:value="item">
                                 {{ item.name }}
                             </option>
                         </select>
@@ -87,10 +87,12 @@
 
                 <div class="col-sm-4">
                     <div class="bricks-img_block">
-                        <img src="assets/img/bricks/01_bricks.jpg" alt="">
+                        <img v-if="!imjSrc" src="assets/img/bricks/01_bricks.jpg">
+                        <img v-if="imjSrc" v-bind:src="'assets/img/bricks/' + imjSrc + '.jpg'">
                     </div>
                     <div class="grid-img_block">
-                        <img src="assets/img/grids/01_grid.jpg" alt="">
+                        <img v-if="!imjGrids" src="assets/img/grids/01_grid.jpg">
+                        <img v-if="imjGrids" v-bind:src="'assets/img/grids/' + imjGrids + '.jpg'">
                     </div>
                 </div>
             </div>
@@ -98,6 +100,8 @@
             <hr>
             <h4>Отладка:</h4>
 
+            <p>imjSrc {{ imjSrc }}</p>
+            <p>imjGrids {{ imjGrids }}</p>
             <pre> {{ $data | json }}</pre>
 
         </div>

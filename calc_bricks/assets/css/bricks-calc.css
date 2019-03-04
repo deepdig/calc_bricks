@@ -61,6 +61,8 @@
     font-size: 1rem;
 }
 .calc-option_block select:focus, .calc-option_block input:focus {outline: none;border: 1px solid #ff6200;}
+.bricks-img_block {width: 200px; height: 180px; margin-bottom: 2rem;overflow: hidden;}
+.bricks-img_block img {max-width: 100%;height: auto;}
 
 @media (min-width:768px){
     .calc-option_block select, .calc-option_block input  {width: 150px;margin-right: 20px;}
