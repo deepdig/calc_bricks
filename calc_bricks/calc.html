@@ -98,11 +98,12 @@
 
                 <div class="col-sm-12 result-button_block">
                     <div class="button result-button" v-on:click="resultsShow = !resultsShow">Расчитать</div>
+                    <span v-if="resultsShow && (!selectSize || !inputPerimeter || !inputDegHeight || !selectDepth)" class="calc-error">Заполните все параметры</span>
                 </div>
             </div>
 
             <transition name="fade">
-                <div v-if="resultsShow" class="row calc-results">
+                <div _v-if="resultsShow && selectSize && inputPerimeter && inputDegHeight && selectDepth" class="row calc-results">
                     <div class="col-sm-12">
                         <h3>Расчеты</h3>
                         <table>
@@ -126,6 +127,61 @@
                                     <td class="td-name" data-label="Параметр:">Количество кирпича</td>
                                     <td class="td-result" data-label="Результат:"> {{ numResult }} </td>
                                     <td class="td-metr" data-label="Единица измерения:">шт.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Вес 1 кирпича</td>
+                                    <td class="td-result" data-label="Результат:"> {{ selectSize.weight }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">кг.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Общий вес кирпича</td>
+                                    <td class="td-result" data-label="Результат:"> {{ Math.round(selectSize.weight * numResult * 10)/10 }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">кг.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Общий объем кирпича</td>
+                                    <td class="td-result" data-label="Результат:"> {{ Math.round(numResult * selectSize.volume * 100)/100 }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">м3.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Количество кирпича в кубе</td>
+                                    <td class="td-result" data-label="Результат:"> {{ selectSize.num3 }} </td>
+                                    <td class="td-metr" data-label="Единица измерения:">шт./м3</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Кол-во раствора на всю кладку</td>
+                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">м3</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Примерный вес раствора</td>
+                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">кг.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Оптимальная высота стены</td>
+                                    <td class="td-result" data-label="Результат:"> {{ wallResult }}  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">cм.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Кол-во рядов кирпича с учетом швов</td>
+                                    <td class="td-result" data-label="Результат:"> {{ rowResult }}  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">рядов</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Кол-во кладочной сетки</td>
+                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">метров</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Примерный вес готовых стен</td>
+                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">кг.</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-name" data-label="Параметр:">Нагрузка на фундамент от стен</td>
+                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-metr" data-label="Единица измерения:">кг/см2</td>
                                 </tr>
                             </tbody>
                         </table>

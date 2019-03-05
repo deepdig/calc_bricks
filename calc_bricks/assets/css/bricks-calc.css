@@ -78,6 +78,7 @@
     cursor: pointer;
 }
 .result-button:hover {background: #fff;color: #f90;}
+.calc-error {display: block;margin: 1rem; color: red;}
 
 @media (min-width:768px){
     .calc-option_block select, .calc-option_block input  {width: 150px;margin-right: 20px;}

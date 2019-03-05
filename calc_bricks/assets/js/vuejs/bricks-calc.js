@@ -33,50 +33,82 @@ var vm = new Vue({
         bricksSizeArr: [{
             name: '250х120х65 кирпич лицевой пустотелый одинарный', // length x width x heigt
             img: '01_bricks',
-            length: 250, // длина кирпича
+            length: 250, // длина кирпича мм
             width: 120, // ширина кирпича мм
+            height: 65, // высота мм
+            weight: 3.6, // вес 1 кирпича
+            volume: 0.00195, // объем 1 кирпича m3
+            num3: 394, // Количество кирпича в кубе c учетом швов
             coef: 2
         }, {
             name: '250х120х88 кирпич лицевой пустотелый полуторный',
             img: '02_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 88, // высота мм
+            weight: 4.3, // вес 1 кирпича
+            volume: 0.00264, // объем 1 кирпича m3
+            num3: 302, // Количество кирпича в кубе c учетом швов
             coef: 3
         }, {
             name: '250х120х65 кирпич печной одинарный',
             img: '03_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 65, // высота мм
+            weight: 3.6, // вес 1 кирпича
+            volume: 0.00195, // объем 1 кирпича m3
+            num3: 394, // Количество кирпича в кубе c учетом швов
             coef: 4
         }, {
             name: '250х120х65 кирпич шамотный одинарный',
             img: '04_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 65, // высота мм
+            weight: 3.6, // вес 1 кирпича
+            volume: 0.00195, // объем 1 кирпича m3
+            num3: 394, // Количество кирпича в кубе c учетом швов
             coef: 5
         }, {
             name: '250х120х65 кирпич силикатный одинарный',
             img: '05_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 65, // высота мм
+            weight: 3.6, // вес 1 кирпича
+            volume: 0.00195, // объем 1 кирпича m3
+            num3: 394, // Количество кирпича в кубе c учетом швов
             coef: 5
         }, {
             name: '250х120х88 кирпич силикатный полуторный',
             img: '06_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 88, // высота мм
+            weight: 4.3, // вес 1 кирпича
+            volume: 0.00264, // объем 1 кирпича m3
+            num3: 302, // Количество кирпича в кубе c учетом швов
             coef: 5
         }, {
             name: '250х120х65 кирпич строительный одинарный',
             img: '07_bricks',
             length: 250, // длина кирпича
             depth: 120, // ширина кирпича мм
+            height: 65, // высота мм
+            weight: 3.6, // вес 1 кирпича
+            volume: 0.00195, // объем 1 кирпича m3
+            num3: 394, // Количество кирпича в кубе c учетом швов
             coef: 5
         }, {
             name: '250х120х140 кирпич строительный двойной пустотелый',
             img: '08_bricks',
             length: 250, // длина кирпича
             width: 120, // ширина кирпича мм
+            height: 140, // высота мм
+            weight: 7.2, // вес 1 кирпича
+            volume: 0.0042, // объем 1 кирпича m3
+            num3: 200, // Количество кирпича в кубе c учетом швов
             coef: 5
         }],
         // толщина кирпича
@@ -179,10 +211,113 @@ var vm = new Vue({
         numResult: function() {
             var perimeter = this.inputPerimeter; // длина периметра
             var height = this.inputDegHeight; // Высота стен по углам (см.)
-            var square = Math.round( (perimeter * height)/100 );
+            var brick = this.selectSize.height; // высота, тип кирпича
+            var liq = this.selectLiquorDepth.value; // толщина раствора
+            var depth = this.selectDepth.value; // толщина кладки
+            var x = 0; // кирпичей на кв.м
+            var brickFlag = 0; // тип кирпича
 
-            return Math.round( 1.08 * ( square * 51) );
+            var square = Math.round( (perimeter * height)/100 ); // находим площадь
 
+            // расчет типа кирпича
+            switch (brick) {
+                case 65:
+                    brickFlag = 1; // одинарный
+                    break;
+                case 88:
+                    brickFlag = 1.5; // полуторный
+                    break;
+                case 140:
+                    brickFlag = 2; // двойной
+                    break;
+                default:
+                   brickFlag = 0;
+            }
+
+            if (brickFlag == 1) {
+
+                // кирпичей в 1кв.м для одинарного кирпича в зависимости от типа кладки
+                switch (depth) {
+                    case 0:
+                        x = 51;
+                        break;
+                    case 1:
+                        x = 102;
+                        break;
+                    case 1.5:
+                        x = 153;
+                        break;
+                    case 2:
+                        x = 204;
+                        break;
+                    default:
+                       x = 0;
+                }
+            } else if (brickFlag == 1.5) {
+
+                // кирпичей в 1кв.м для полуторного кирпича в зависимости от типа кладки
+                switch (depth) {
+                    case 0:
+                        x = 39;
+                        break;
+                    case 1:
+                        x = 78;
+                        break;
+                    case 1.5:
+                        x = 78;
+                        break;
+                    case 2:
+                        x = 156;
+                        break;
+                    default:
+                       x = 0;
+                }
+
+            } else if (brickFlag == 2) {
+
+                // кирпичей в 1кв.м для двойного кирпича в зависимости от типа кладки
+                switch (depth) {
+                    case 0:
+                        x = 26;
+                        break;
+                    case 1:
+                        x = 52;
+                        break;
+                    case 1.5:
+                        x = 52;
+                        break;
+                    case 2:
+                        x = 104;
+                        break;
+                    default:
+                       x = 0;
+                }
+
+            }
+
+            return Math.round( square * x );
+
+        },
+
+        // расчет Оптимальная высота стены
+        wallResult: function() {
+            var width = this.selectSize.width; // ширина кирпича
+            var height = this.inputDegHeight; // высота стен
+            var liq = this.selectLiquorDepth.value; // толщина раствора
+            var sum = (width + liq)/10; // кирпич и слой раствора в см
+            var row = Math.round(height / (width/10)); // сколько рядов кирпича в стене
+
+            return Math.round( row * sum );
+        },
+
+        // расчет рядов с учетом швов
+        rowResult: function() {
+            var width = this.selectSize.width; // ширина кирпича
+            var height = this.inputDegHeight; // высота стен
+            var liq = this.selectLiquorDepth.value; // толщина раствора
+            var sum = (width + liq)/10; // кирпич и слой раствора в см
+
+            return Math.round(height / sum);
         },
 
         // возврат названия картинки с кирпичом
