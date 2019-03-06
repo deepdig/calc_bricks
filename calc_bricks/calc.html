@@ -31,11 +31,11 @@
                     </div>
 
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputPerimeter" placeholder="Длина(м.)">
+                        <input type="num" v-model="inputPerimeter" placeholder="Длина(м.)">
                         <span class="calc-option_info">Общая длина всех стен (периметр) (м.)</span>
                     </div>
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputDegHeight" placeholder="Высота (см.)">
+                        <input type="num" v-model="inputDegHeight" placeholder="Высота (см.)">
                         <span class="calc-option_info">Высота стен по углам (см.)</span>
                     </div>
 
@@ -76,11 +76,11 @@
                     </div>
 
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputPrice" placeholder="Цена за 1шт.">
+                        <input type="num" v-model="inputPrice" placeholder="Цена за 1шт.">
                         <span class="calc-option_info">Цена за 1шт.</span>
                     </div>
                     <div class="calc-option_block">
-                        <input type="text" v-model="inputVoid" placeholder="Пустотность (%)">
+                        <input type="num" v-model="inputVoid" placeholder="Пустотность (%)">
                         <span class="calc-option_info">Пустотность кирпича (%)</span>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
             </div>
 
             <transition name="fade">
-                <div _v-if="resultsShow && selectSize && inputPerimeter && inputDegHeight && selectDepth" class="row calc-results">
+                <div v-if="resultsShow && selectSize && inputPerimeter && inputDegHeight && selectDepth" class="row calc-results">
                     <div class="col-sm-12">
                         <h3>Расчеты</h3>
                         <table>
@@ -150,12 +150,12 @@
                                 </tr>
                                 <tr>
                                     <td class="td-name" data-label="Параметр:">Кол-во раствора на всю кладку</td>
-                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-result" data-label="Результат:"> {{ volumeResult }} </td>
                                     <td class="td-metr" data-label="Единица измерения:">м3</td>
                                 </tr>
                                 <tr>
                                     <td class="td-name" data-label="Параметр:">Примерный вес раствора</td>
-                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-result" data-label="Результат:"> {{ volumeResult * 2200 }} </td>
                                     <td class="td-metr" data-label="Единица измерения:">кг.</td>
                                 </tr>
                                 <tr>
@@ -170,17 +170,17 @@
                                 </tr>
                                 <tr>
                                     <td class="td-name" data-label="Параметр:">Кол-во кладочной сетки</td>
-                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-result" data-label="Результат:"> {{ gridsResult }} </td>
                                     <td class="td-metr" data-label="Единица измерения:">метров</td>
                                 </tr>
                                 <tr>
                                     <td class="td-name" data-label="Параметр:">Примерный вес готовых стен</td>
-                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-result" data-label="Результат:"> {{ wallWeightResult }} </td>
                                     <td class="td-metr" data-label="Единица измерения:">кг.</td>
                                 </tr>
                                 <tr>
                                     <td class="td-name" data-label="Параметр:">Нагрузка на фундамент от стен</td>
-                                    <td class="td-result" data-label="Результат:">  </td>
+                                    <td class="td-result" data-label="Результат:"> {{ wallWeightResult / (squareResult * 10000) }}  </td>
                                     <td class="td-metr" data-label="Единица измерения:">кг/см2</td>
                                 </tr>
                             </tbody>
@@ -188,13 +188,7 @@
                     </div>
                 </div>
             </transition>
-
             <hr>
-            <h4>Отладка:</h4>
-
-            <p>imjSrc {{ imjSrc }}</p>
-            <p>imjGrids {{ imjGrids }}</p>
-            <pre> {{ $data | json }}</pre>
 
         </div>
     </div>

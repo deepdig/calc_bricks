@@ -143,19 +143,19 @@ var vm = new Vue({
         // Кладочная сетка   select
         bricksGridArr: [{
             name: 'Каждый ряд',
-            coef: 2
+            value: 0
         }, {
             name: 'Через ряд',
-            coef: 3
+            value: 1
         }, {
             name: 'Через 2 ряда',
-            coef: 4
+            value: 2
         }, {
             name: 'Через 3 ряда',
-            coef: 4
+            value: 3
         }, {
             name: 'Через 4 ряда',
-            coef: 4
+            value: 4
         }],
     },
 
@@ -318,6 +318,72 @@ var vm = new Vue({
             var sum = (width + liq)/10; // кирпич и слой раствора в см
 
             return Math.round(height / sum);
+        },
+
+        // расчет объема раствора
+        volumeResult: function() {
+            var num = this.numResult; // количество кирпича
+            var brickVolume = this.selectSize.volume; // объем одного кирпича
+            var brick = this.selectSize.height; // высота, тип кирпича
+            var volume = Math.round(num * brickVolume * 100)/100; // Общий объем кирпича
+            var brickCoef = 0;
+
+            // расчет раствора на 1м3 от типа кирпича
+            switch (brick) {
+                case 65:
+                    brickCoef = 0.189; // одинарный
+                    break;
+                case 88:
+                    brickCoef = 0.221; // полуторный
+                    break;
+                case 140:
+                    brickCoef = 0.24; // двойной
+                    break;
+                default:
+                   brickCoef = 0;
+            }
+
+
+            return volume * brickCoef;
+        },
+
+        // расчет кладочной сетки
+        gridsResult: function() {
+            var square = this.squareResult; // Общая площадь кладки
+            var grid = this.selectGrid.value; // кладочная сетка
+            var x = 0;
+            // расчет кладочной сетки
+                switch (grid) {
+                    case 0:                  // каждый ряд
+                        x = square*10 * 1.3; // 1.3м сетки на 0.1м2 кладки
+                        break;
+                    case 1:                  // через ряд
+                        x = (square*10 * 1.3)/2;
+                        break;
+                    case 2:                  // через два ряда
+                        x = (square*10 * 1.3)/4;
+                        break;
+                    case 3:                  // через три ряда
+                        x = (square*10 * 1.3)/6;
+                        break;
+                    case 4:                  // через четыре ряда
+                        x = (square*10 * 1.3)/8;
+                        break;
+                    default:
+                       x = 0;
+                }
+
+            return x;
+        },
+
+        // вес готовых стен
+        wallWeightResult: function() {
+            var weight = this.selectSize.weight; // вес кирпича
+            var num = this.numResult; // количество кирпича
+            var volume = this.volumeResult;
+            // Math.round(weight * num * 10)/10 + volumeResult * 2200
+
+            return Math.round( (weight * num * 10)/10 + volume * 2200 );
         },
 
         // возврат названия картинки с кирпичом
