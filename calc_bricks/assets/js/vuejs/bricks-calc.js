@@ -344,7 +344,7 @@ var vm = new Vue({
             }
 
 
-            return volume * brickCoef;
+            return Math.round(volume * brickCoef * 10)/10;
         },
 
         // расчет кладочной сетки
